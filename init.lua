@@ -32,7 +32,7 @@ vim.pack.add({
 
 	-- lsp has caused me so much trouble lately
 	-- might as well as add this while im at adding plugins
-	{ src = "nvim-lspconfig",                                    { type = "git", opt = true } },
+	{ src = "https://github.com/neovim/nvim-lspconfig",          { type = "git", opt = true } },
 
 	-- colorschemes
 	{ src = "https://github.com/catppuccin/nvim",                name = "catppuccin" },
@@ -50,10 +50,7 @@ vim.pack.add({
 
 --- PACKAGE CONFIG
 
-require("colorizer").setup {
-	hyprlang = { rgb_fn = true, },
-}
-
+-- require("colorizer").setup()
 require("oil").setup()
 require("mini.pick").setup()
 require("mini.icons").setup()
@@ -80,7 +77,6 @@ require("neorg").setup({
 }
 )
 require("zen-mode").setup()
-
 require("nvim-treesitter.configs").setup {
 	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "norg_meta", "norg" },
@@ -144,7 +140,7 @@ vim.keymap.set("n", "<leader>lq", ":Trouble diagnostics<CR>")
 
 --- LSP
 --- list of configured servers are available in nvim-data/site/pack/core/opt/nvim-lspconfig/lsp/
-vim.lsp.enable({ "lua_ls", "clangd", "basedpyright", "ruff" , "ts_ls", "typescript-language-server", "superhtml"})
+vim.lsp.enable({ "lua_ls", "clangd", "basedpyright", "ruff", "ts_ls", "typescript-language-server", "superhtml" })
 
 vim.cmd("set completeopt=menu,preview,noselect")
 

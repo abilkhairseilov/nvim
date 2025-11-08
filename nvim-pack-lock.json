@@ -1,0 +1,36 @@
+{
+  "plugins": {
+    "blink.cmp": [],
+    "catppuccin": [],
+    "lua-utils.nvim": [],
+    "mini.icons": [],
+    "mini.pick": [],
+    "neorg": [],
+    "nvim-colorizer.lua": {
+      "rev": "a065833",
+      "src": "https://github.com/norcalli/nvim-colorizer.lua"
+    },
+    "nvim-lspconfig": {
+      "rev": "2010fc6",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-nio": [],
+    "nvim-treesitter": [],
+    "oil.nvim": [],
+    "pathlib.nvim": [],
+    "pixel.nvim": {
+      "rev": "fd06541",
+      "src": "https://github.com/bjarneo/pixel.nvim"
+    },
+    "plenary.nvim": [],
+    "snacks.nvim": [],
+    "trouble.nvim": {
+      "rev": "bd67efe",
+      "src": "https://github.com/folke/trouble.nvim"
+    },
+    "zen-mode.nvim": {
+      "rev": "8564ce6",
+      "src": "https://github.com/folke/zen-mode.nvim"
+    }
+  }
+}

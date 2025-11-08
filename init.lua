@@ -1,3 +1,4 @@
+vim.o.shell = "pwsh.exe"
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
@@ -12,6 +13,7 @@ vim.o.wrap = false
 vim.g.mapleader = " "
 
 vim.o.background = dark
+vim.o.guifont = "Cascadia Mono"
 
 vim.wo.foldlevel = 99
 vim.wo.conceallevel = 2
@@ -141,35 +143,11 @@ vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>lq", ":Trouble diagnostics<CR>")
 
 --- LSP
-local lspconfig = require("lspconfig")
-
--- A general on_attach function to be used by ALL language servers
-local on_attach = function(client, bufnr)
-	-- Essential checks to prevent issues with ephemeral buffers (oil.nvim, diffs)
-	if not vim.api.nvim_buf_is_valid(bufnr) or vim.bo[bufnr].buftype ~= "" then
-		return
-	end
-
-	vim.schedule(function()
-		-- Set up buffer local keymaps when LSP attaches
-		-- You can customize these keymaps as you like
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover)
-		vim.keymap.set("n", "gri", vim.lsp.buf.implementation)
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help)
-		vim.keymap.set("n", "grn", vim.lsp.buf.rename)
-		vim.keymap.set("n", "gra", vim.lsp.buf.code_action)
-	end)
-end
-
-lspconfig.lua_ls.setup({ on_attach = on_attach })
-lspconfig.clangd.setup({ on_attach = on_attach })
-lspconfig.basedpyright.setup({ on_attach = on_attach })
-lspconfig.bashls.setup({ on_attach = on_attach })
-lspconfig.ruff.setup({ on_attach = on_attach })
+--- list of configured servers are available in nvim-data/site/pack/core/opt/nvim-lspconfig/lsp/
+vim.lsp.enable({ "lua_ls", "clangd", "basedpyright", "ruff" , "ts_ls", "typescript-language-server", "superhtml"})
 
 vim.cmd("set completeopt=menu,preview,noselect")
 
 --- FINAL SETTINGS
 ---
-vim.cmd("colorscheme quiet")
+vim.cmd("colorscheme catppuccin")

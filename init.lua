@@ -3,6 +3,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
+vim.o.showtabline = 2
 vim.o.signcolumn = "yes"
 -- vim.o.completeopt = "fuzzy"
 vim.o.winborder = "rounded"
@@ -148,4 +149,4 @@ vim.cmd("set completeopt=menu,preview,noselect")
 
 --- FINAL SETTINGS
 ---
-vim.cmd("colorscheme catppuccin")
+vim.cmd("colorscheme pixel")

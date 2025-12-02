@@ -46,6 +46,8 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-neotest/nvim-nio" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 
+	{ src = "https://github.com/3rd/image.nvim" },
+
 })
 
 --- PACKAGE CONFIG

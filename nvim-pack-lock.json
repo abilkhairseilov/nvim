@@ -2,6 +2,10 @@
   "plugins": {
     "blink.cmp": [],
     "catppuccin": [],
+    "image.nvim": {
+      "rev": "446a8a5",
+      "src": "https://github.com/3rd/image.nvim"
+    },
     "lua-utils.nvim": [],
     "mini.icons": [],
     "mini.pick": [],

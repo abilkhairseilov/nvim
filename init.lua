@@ -11,6 +11,7 @@ vim.o.swapfile = false
 vim.o.undofile = true
 vim.o.termguicolors = true
 vim.o.wrap = false
+vim.cmd("filetype plugin on")
 vim.g.mapleader = " "
 
 vim.o.background = dark
@@ -149,4 +150,4 @@ vim.cmd("set completeopt=menu,preview,noselect")
 
 --- FINAL SETTINGS
 ---
-vim.cmd("colorscheme pixel")
+vim.cmd("colorscheme catppuccin-latte")

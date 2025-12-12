@@ -1,4 +1,3 @@
-vim.o.shell = "pwsh.exe"
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
@@ -31,6 +30,7 @@ vim.pack.add({
 	{ src = "https://github.com/norcalli/nvim-colorizer.lua" },
 	{ src = "https://github.com/folke/zen-mode.nvim" },
 	{ src = "https://github.com/folke/trouble.nvim",             { opt = true } },
+	{ src = "https://github.com/rktjmp/lush.nvim", },
 
 	-- lsp has caused me so much trouble lately
 	-- might as well as add this while im at adding plugins
@@ -39,6 +39,11 @@ vim.pack.add({
 	-- colorschemes
 	{ src = "https://github.com/catppuccin/nvim",                name = "catppuccin" },
 	{ src = "https://github.com/bjarneo/pixel.nvim" },
+	{ src = "https://github.com/uloco/bluloco.nvim" },
+	{ src = "https://github.com/ribru17/bamboo.nvim" },
+	{ src = "https://github.com/webhooked/kanso.nvim" },
+	{ src = "https://github.com/kamwitsta/vinyl.nvim" },
+	{ src = "https://github.com/NLKNguyen/papercolor-theme" },
 
 	-- neorg and deps
 	{ src = "https://github.com/nvim-neorg/neorg" },
@@ -150,4 +155,4 @@ vim.cmd("set completeopt=menu,preview,noselect")
 
 --- FINAL SETTINGS
 ---
-vim.cmd("colorscheme catppuccin-latte")
+vim.cmd("colorscheme vinyl") 

@@ -3,7 +3,7 @@ vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
 vim.o.wrap = false
 vim.o.textwidth=80
-vim.o.formatoptions = "atw"
+vim.o.formatoptions = "aw"
 
 -- vim.opt.linebreak = true
 -- vim.opt.breakindent = true

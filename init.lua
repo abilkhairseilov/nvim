@@ -28,47 +28,54 @@ vim.cmd("hi @lsp.type.number gui=bold")
 -- ============================================================================
 
 vim.pack.add({
-    -- Appearance
-    { src = "https://github.com/vague2k/vague.nvim" },
-    { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	-- Appearance
+	{ src = "https://github.com/vague2k/vague.nvim" },
+	{ src = "https://github.com/tiagovla/tokyodark.nvim" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
-    -- Editing
-    { src = "https://github.com/chentoast/marks.nvim" },
-    { src = "https://github.com/L3MON4D3/LuaSnip" },
+	-- Editing
+	{ src = "https://github.com/chentoast/marks.nvim" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 
-    -- Tmux
-    { src = "https://github.com/christoomey/vim-tmux-navigator" },
-    { src = "https://github.com/aserowy/tmux.nvim" },
+	-- Tmux
+	{ src = "https://github.com/christoomey/vim-tmux-navigator" },
+	{ src = "https://github.com/aserowy/tmux.nvim" },
 
-    -- Navigation
-    { src = "https://github.com/stevearc/oil.nvim" },
-    { src = "https://github.com/nvim-telescope/telescope.nvim", version = "master" },
-    { src = "https://github.com/nvim-telescope/telescope-ui-select.nvim" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/LinArcX/telescope-env.nvim" },
+	-- Navigation
+	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "master" },
+	{ src = "https://github.com/nvim-telescope/telescope-ui-select.nvim" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/LinArcX/telescope-env.nvim" },
 
-    -- LSP & Completion
-    { src = "https://github.com/neovim/nvim-lspconfig" },
-    { src = "https://github.com/mason-org/mason.nvim" },
-    { src = "https://github.com/folke/lazydev.nvim" },
-    { src = "https://github.com/aznhe21/actions-preview.nvim" },
+	-- LSP & Completion
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/folke/lazydev.nvim" },
+	{ src = "https://github.com/aznhe21/actions-preview.nvim" },
+	{
+		src = "https://github.com/saghen/blink.cmp",
+	},
+	{ src = "https://github.com/saghen/blink.lib" },
+	{ src = "https://github.com/rafamadriz/friendly-snippets" },
 
-    -- Treesitter
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
+	-- Treesitter
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
 
-    -- Debugging
-    { src = "https://github.com/mfussenegger/nvim-dap" },
-    { src = "https://github.com/rcarriga/nvim-dap-ui" },
-    { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
-    { src = "https://github.com/julianolf/nvim-dap-lldb" },
-    { src = "https://github.com/nvim-neotest/nvim-nio" },
+	-- Debugging
+	{ src = "https://github.com/mfussenegger/nvim-dap" },
+	{ src = "https://github.com/rcarriga/nvim-dap-ui" },
+	{ src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
+	{ src = "https://github.com/julianolf/nvim-dap-lldb" },
+	{ src = "https://github.com/nvim-neotest/nvim-nio" },
 
-    -- Misc
-    { src = "https://github.com/chomosuke/typst-preview.nvim" },
-    { src = "https://github.com/iamcco/markdown-preview.nvim" },
-    { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-    { src = "https://github.com/folke/zen-mode.nvim" },
+	-- Misc
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/ej-shafran/compile-mode.nvim" },
+	{ src = "https://github.com/folke/zen-mode.nvim" }
 })
 
 -- ============================================================================
@@ -76,72 +83,98 @@ vim.pack.add({
 -- ============================================================================
 
 -- Colorscheme
-require("vague").setup({transparent = true})
-vim.cmd("colorscheme vague")
+require("tokyodark").setup({transparent_background = true})
+vim.cmd("colorscheme tokyodark")
 
 -- Tmux.nvim
 require("tmux").setup({
-    navigation = { enable_default_keybindings = false },
-    resize = { enable_default_keybindings = true },
+	navigation = { enable_default_keybindings = false },
+	resize = { enable_default_keybindings = true },
+	copy_sync = { enable = true }
+})
+
+require("typst-preview").setup({
+	debug = true,
+
+	dependencies_bin = {
+		tinymist = "tinymist",
+		websocat = nil
+	}
 })
 
 -- Lazydev (Lua LSP enhancements)
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "lua",
-    callback = function()
-        require("lazydev").setup()
-    end,
+	pattern = "lua",
+	callback = function ()
+		require("lazydev").setup()
+	end
 })
 
 -- Treesitter
 local treesitter_langs = {
-    "svelte", "markdown", "lua", "rust", "typst", "typescript",
-    "javascript", "c", "cpp", "glsl", "zig", "python", "typescriptreact",
+	"svelte", "markdown", "lua", "rust", "typst", "typescript", "javascript", "c", "cpp", "glsl", "zig", "python",
+	"typescriptreact"
 }
 
-local typesetting_langs = {
-	"md", "typst", "org"
-}
+local typesetting_langs = { "md", "typst", "org" }
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = treesitter_langs,
-    callback = function()
-        vim.treesitter.start()
-    end,
+	pattern = treesitter_langs,
+	callback = function ()
+		vim.treesitter.start()
+	end
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = typesetting_langs,
-    callback = function()
-			vim.o.wrap = true
-			vim.o.linebreak = true
-			vim.keymap.set('n', "j", "gj")
-			vim.keymap.set('n', "k", "gk")
-    end,
+	pattern = typesetting_langs,
+	callback = function ()
+		vim.o.wrap = true
+		vim.o.linebreak = true
+		vim.o.spell = true
+		vim.keymap.set('n', "j", "gj")
+		vim.keymap.set('n', "k", "gk")
+	end
 })
 
 -- LSP
 vim.lsp.enable({
-    "emmylua_ls", "cssls", "svelte", "tinymist",
-    "rust_analyzer", "clangd", "ruff",
-    "haskell-language-server", "hlint",
-    "tailwindcss", "ts_ls", "basedpyright",
+	"emmylua_ls",
+	"cssls",
+	"svelte",
+	"tinymist",
+	"rust_analyzer",
+	"clangd",
+	"ruff",
+	"haskell-language-server",
+	"hlint",
+	"tailwindcss",
+	"ts_ls",
+	"basedpyright"
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("my.lsp", {}),
-    callback = function(args)
-        local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-        if client:supports_method("textDocument/completion") then
-            -- Trigger autocompletion on every printable character
-            local chars = {}
-            for i = 32, 126 do
-                chars[i - 31] = string.char(i)
-            end
-            client.server_capabilities.completionProvider.triggerCharacters = chars
-            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-        end
-    end,
+-- below made obsolete by blink.cmp
+--
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--     group = vim.api.nvim_create_augroup("my.lsp", {}),
+--     callback = function(args)
+--         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+--         if client:supports_method("textDocument/completion") then
+--             -- Trigger autocompletion on every printable character
+--             local chars = {}
+--             for i = 32, 126 do
+--                 chars[i - 31] = string.char(i)
+--             end
+--             client.server_capabilities.completionProvider.triggerCharacters = chars
+--             vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+--         end
+--     end,
+-- })
+
+-- blink.cmp
+-- required to call .build():pwait() because native vim.pack does not have a build function
+
+require('blink.cmp').build():pwait()
+require('blink.cmp').setup({
 })
 
 -- Mason
@@ -150,47 +183,50 @@ require("mason").setup()
 -- Telescope
 local telescope = require("telescope")
 telescope.setup({
-    defaults = {
-        preview = { treesitter = true },
-        color_devicons = true,
-        sorting_strategy = "ascending",
-        borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-        path_displays = { "smart" },
-        layout_config = {
-            height = 100,
-            width = 400,
-            prompt_position = "top",
-            preview_cutoff = 40,
-        },
-    },
+	defaults = {
+		preview = { treesitter = true },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40
+		}
+	}
 })
 telescope.load_extension("ui-select")
 
 -- Actions preview
 require("actions-preview").setup({
-    backend = { "telescope" },
-    telescope = require("telescope.themes").get_dropdown(),
+	backend = { "telescope" },
+	telescope = require("telescope.themes").get_dropdown()
 })
 
 -- Oil
 require("oil").setup({
-    lsp_file_methods = {
-        enabled = true,
-        timeout_ms = 1000,
-        autosave_changes = true,
-    },
-    columns = { "icon" },
-    float = {
-        max_width = 0.3,
-        max_height = 0.6,
-        border = "rounded",
-    },
+	lsp_file_methods = {
+		enabled = true,
+		timeout_ms = 1000,
+		autosave_changes = true
+	},
+	columns = { "icon" },
+	float = {
+		max_width = 0.3,
+		max_height = 0.6,
+		border = "rounded"
+	}
 })
 
 -- Marks
 require("marks").setup({
-    builtin_marks = { "<", ">", "^" },
+	builtin_marks = { "<", ">", "^" }
 })
+
+-- Gitsigns
+require("gitsigns").setup()
 
 -- LuaSnip
 require("luasnip").setup({ enable_autosnippets = true })
@@ -200,14 +236,14 @@ require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
 require("dap-lldb").setup()
 
 local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
+dap.listeners.after.event_initialized["dapui_config"] = function ()
+	dapui.open()
 end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
+dap.listeners.before.event_terminated["dapui_config"] = function ()
+	dapui.close()
 end
-dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
+dap.listeners.before.event_exited["dapui_config"] = function ()
+	dapui.close()
 end
 
 -- ============================================================================
@@ -215,21 +251,21 @@ end
 -- ============================================================================
 
 local function pack_clean()
-    local unused = {}
-    for _, plugin in ipairs(vim.pack.get()) do
-        if not plugin.active then
-            table.insert(unused, plugin.spec.name)
-        end
-    end
+	local unused = {}
+	for _, plugin in ipairs(vim.pack.get()) do
+		if not plugin.active then
+			table.insert(unused, plugin.spec.name)
+		end
+	end
 
-    if #unused == 0 then
-        print("No unused plugins.")
-        return
-    end
+	if #unused == 0 then
+		print("No unused plugins.")
+		return
+	end
 
-    if vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2) == 1 then
-        vim.pack.del(unused)
-    end
+	if vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2) == 1 then
+		vim.pack.del(unused)
+	end
 end
 
 -- ============================================================================
@@ -246,9 +282,27 @@ map({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "Yank to system clipboard" })
 
 -- Snippets
-map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true })
-map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
-map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
+map(
+	{ "i", "s" }, "<C-e>",
+	function ()
+		ls.expand_or_jump(1)
+	end,
+	{ silent = true }
+)
+map(
+	{ "i", "s" }, "<C-J>",
+	function ()
+		ls.jump(1)
+	end,
+	{ silent = true }
+)
+map(
+	{ "i", "s" }, "<C-K>",
+	function ()
+		ls.jump(-1)
+	end,
+	{ silent = true }
+)
 
 -- DAP
 map("n", "<leader>d", ":DapNew<CR>", { desc = "New DAP session" })
@@ -260,7 +314,7 @@ map({ "n", "t" }, "<Leader>x", "<Cmd>tabclose<CR>", { desc = "Close tab" })
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 for i = 1, 8 do
-    map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
+	map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
 
 -- Plugin management
@@ -309,7 +363,13 @@ map("n", "<M-m>", "<cmd>vertical resize -5<CR>", { desc = "Decrease width" })
 -- Telescope
 map("n", "<leader>f", builtin.find_files, { desc = "Find files" })
 map("n", "<leader>g", builtin.live_grep, { desc = "Live grep" })
-map("n", "<leader>sg", function() builtin.find_files({ no_ignore = true }) end, { desc = "Find all files" })
+map(
+	"n", "<leader>sg",
+	function ()
+		builtin.find_files({ no_ignore = true })
+	end,
+	{ desc = "Find all files" }
+)
 map("n", "<leader>sb", builtin.buffers, { desc = "Buffers" })
 map("n", "<leader>si", builtin.grep_string, { desc = "Grep string under cursor" })
 map("n", "<leader>so", builtin.oldfiles, { desc = "Recent files" })
@@ -333,7 +393,8 @@ map("n", "<leader>e", "<cmd>Oil<CR>", { desc = "Open Oil file browser" })
 map("n", "<leader>c", "<cmd>Compile<CR>", { desc = "Compile" })
 
 -- Custom ex-mode mappings
-vim.cmd([[
+vim.cmd(
+	[[
     nnoremap g= g+
     nnoremap gK @='ddkPJ'<cr>
     xnoremap gK <esc><cmd>keeppatterns '<,'>-global/$/normal! ddpkJ<cr>
@@ -342,4 +403,5 @@ vim.cmd([[
     noremap! <c-r><c-f> <c-r>=expand('%:t')<cr>
     noremap! <c-r><c-p> <c-r>=expand('%:p')<cr>
     xnoremap <expr> . "<esc><cmd>'<,'>normal! ".v:count1.'.<cr>'
-]])
+]]
+)

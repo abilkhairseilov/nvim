@@ -8,9 +8,25 @@
       "rev": "2b604b2e8e662c03b716436f6ffebcb19663e66a",
       "src": "https://github.com/aznhe21/actions-preview.nvim"
     },
+    "blink.cmp": {
+      "rev": "0f54bd78892f587db4dcf100a23eaddfc2a9df7d",
+      "src": "https://github.com/saghen/blink.cmp"
+    },
+    "blink.lib": {
+      "rev": "5876dd95deeb70aadbe9f1c0b7117a135061cdac",
+      "src": "https://github.com/saghen/blink.lib"
+    },
     "compile-mode.nvim": {
       "rev": "dd3e952076a33faba0a55b04b2b73945832c0527",
       "src": "https://github.com/ej-shafran/compile-mode.nvim"
+    },
+    "friendly-snippets": {
+      "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
+      "src": "https://github.com/rafamadriz/friendly-snippets"
+    },
+    "gitsigns.nvim": {
+      "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "goyo.vim": {
       "rev": "9c72fdf2d202914318581f9f0dd09fd102f8504d",
@@ -101,6 +117,10 @@
     "tmux.nvim": {
       "rev": "32ceaf2793582955ef9576809730878c4d2d9426",
       "src": "https://github.com/aserowy/tmux.nvim"
+    },
+    "tokyodark.nvim": {
+      "rev": "659aff3c73dc2e0159314050a81671f0b2eaad01",
+      "src": "https://github.com/tiagovla/tokyodark.nvim"
     },
     "typst-preview.nvim": {
       "rev": "87db18b8d19c8b0eed399f52e4c527ce5afe4817",

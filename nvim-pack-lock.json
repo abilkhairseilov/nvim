@@ -8,6 +8,10 @@
       "rev": "0ac9c2aa3cfc8c885321c0862b50b6b1c3392405",
       "src": "https://github.com/aznhe21/actions-preview.nvim"
     },
+    "bark": {
+      "rev": "acccaccd65d5d9c7583b3037466c396f63b3de10",
+      "src": "https://github.com/if-not-nil/bark"
+    },
     "blink.cmp": {
       "rev": "8219b58f1c11a2fb1644d3c7116c509fa8348ec0",
       "src": "https://github.com/saghen/blink.cmp"
@@ -80,6 +84,10 @@
     "nvim-web-devicons": {
       "rev": "58447c1fca354bbf184425e4a8d01deecbd6f3c4",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
+    "oil-git.nvim": {
+      "rev": "8bab14df0b7db7a62fa75c8978d6181daed2f0a2",
+      "src": "https://github.com/malewicz1337/oil-git.nvim"
     },
     "oil.nvim": {
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",

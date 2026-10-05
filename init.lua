@@ -1,4 +1,3 @@
--- Leader must be set BEFORE any leader keymaps
 vim.g.mapleader = " "
 
 -- ============================================================================
@@ -24,6 +23,7 @@ vim.opt.completeopt:append({ "menuone", "noselect", "popup" })
 
 vim.cmd("hi @lsp.type.number gui=bold")
 
+-- cool new thing, might want to research this ui component
 require("vim._core.ui2").enable({
 	enable = true, -- Whether to enable or disable the UI.
 	msg = {       -- Options related to the message module.
@@ -48,6 +48,9 @@ require("vim._core.ui2").enable({
 	},
 })
 
+-- shamelessly stolen from if-not-nil
+require('statusline').setup()
+
 -- ============================================================================
 -- Plugins
 -- ============================================================================
@@ -65,10 +68,10 @@ vim.pack.add({
 
 	-- Navigation
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/malewicz1337/oil-git.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "master" },
 	{ src = "https://github.com/nvim-telescope/telescope-ui-select.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	-- { src = "https://github.com/LinArcX/telescope-env.nvim" },
 
 	-- LSP & Completion
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -106,7 +109,7 @@ vim.pack.add({
 require('vague').setup({
 	transparent = true
 })
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme bark")
 
 -- Tmux.nvim
 -- require("tmux").setup({
@@ -161,6 +164,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- LSP
 vim.lsp.enable({
 	"emmylua_ls",
+	"basedpyright",
 	"cssls",
 	"svelte",
 	"tinymist",
@@ -171,7 +175,6 @@ vim.lsp.enable({
 	"hlint",
 	"tailwindcss",
 	"ts_ls",
-	"basedpyright"
 })
 
 -- blink.cmp
@@ -215,7 +218,7 @@ require("oil").setup({
 		timeout_ms = 1000,
 		autosave_changes = true
 	},
-	columns = { "icon" },
+	columns = { "icon" , ""},
 	float = {
 		max_width = 0.3,
 		max_height = 0.6,

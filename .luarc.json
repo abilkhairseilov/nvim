@@ -1,0 +1,29 @@
+{
+  "$schema": "https://githubusercontent.com",
+  "runtime": {
+    "version": "LuaJIT",
+    "path": [
+      "?.lua",
+      "?/init.lua"
+    ]
+  },
+  "diagnostics": {
+    "globals": [
+      "vim"
+    ],
+    "disable": [
+      "missing-fields",
+			"unresolved-require"
+    ]
+  },
+  "workspace": {
+    "checkThirdParty": "Disable",
+    "library": [
+      "$VIMRUNTIME/lua"
+    ]
+  },
+  "telemetry": {
+    "enable": false
+  }
+}
+

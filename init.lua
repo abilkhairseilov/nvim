@@ -1,4 +1,3 @@
--- Leader must be set BEFORE any leader keymaps
 vim.g.mapleader = " "
 
 -- ============================================================================
@@ -19,9 +18,46 @@ vim.opt.undofile = true
 vim.opt.number = true
 vim.opt.mouse = ""
 vim.opt.swapfile = false
+vim.opt.grepprg = "rg --vimgrep --smart-case --hidden"
 vim.opt.completeopt:append({ "menuone", "noselect", "popup" })
 
 vim.cmd("hi @lsp.type.number gui=bold")
+
+-- cool new thing, might want to research this ui component
+--
+require("vim._core.ui2").enable({
+	enable = true, -- Whether to enable or disable the UI.
+	msg = { -- Options related to the message module.
+		---@type 'cmd' | 'msg' Default message target, either in the
+		--- cmdline or in a separate ephemeral message window.
+		---@type string | table<string, 'cmd' | 'msg' | 'pager'> Default message target
+		--- or table mapping |ui-messages| kinds and triggers to a target.
+		targets = "cmd",
+		cmd = { -- Options related to messages in the cmdline window.
+			height = 0.5 -- Maximum height while expanded for messages beyond 'cmdheight'.
+		},
+		dialog = { -- Options related to dialog window.
+			height = 0.5 -- Maximum height.
+		},
+		msg = { -- Options related to msg window.
+			height = 0.5,  -- Maximum height.
+			timeout = 4000 -- Time a message is visible in the message window.
+		},
+		pager = { -- Options related to message window.
+			height = 1 -- Maximum height.
+		}
+	}
+})
+
+-- need this for whatever reason
+vim.api.nvim_create_autocmd("SessionLoadPost", {
+	callback = function()
+		vim.cmd("filetype detect")
+	end,
+})
+
+-- shamelessly stolen from if-not-nil
+require('statusline').setup()
 
 -- ============================================================================
 -- Plugins
@@ -29,8 +65,7 @@ vim.cmd("hi @lsp.type.number gui=bold")
 
 vim.pack.add({
 	-- Appearance
-	{ src = "https://github.com/vague2k/vague.nvim" },
-	{ src = "https://github.com/tiagovla/tokyodark.nvim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
 	-- Editing
@@ -38,38 +73,25 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 
-	-- Tmux
-	{ src = "https://github.com/christoomey/vim-tmux-navigator" },
-	{ src = "https://github.com/aserowy/tmux.nvim" },
-
 	-- Navigation
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/malewicz1337/oil-git.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "master" },
 	{ src = "https://github.com/nvim-telescope/telescope-ui-select.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/LinArcX/telescope-env.nvim" },
 
 	-- LSP & Completion
+	{ src = "https://github.com/folke/lazydev.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/folke/lazydev.nvim" },
 	{ src = "https://github.com/aznhe21/actions-preview.nvim" },
-	{
-		src = "https://github.com/saghen/blink.cmp",
-	},
+	{ src = "https://github.com/saghen/blink.cmp" },
 	{ src = "https://github.com/saghen/blink.lib" },
 	{ src = "https://github.com/rafamadriz/friendly-snippets" },
 
 	-- Treesitter
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
-
-	-- Debugging
-	{ src = "https://github.com/mfussenegger/nvim-dap" },
-	{ src = "https://github.com/rcarriga/nvim-dap-ui" },
-	{ src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
-	{ src = "https://github.com/julianolf/nvim-dap-lldb" },
-	{ src = "https://github.com/nvim-neotest/nvim-nio" },
 
 	-- Misc
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
@@ -83,15 +105,11 @@ vim.pack.add({
 -- ============================================================================
 
 -- Colorscheme
-require("tokyodark").setup({transparent_background = true})
-vim.cmd("colorscheme tokyodark")
 
--- Tmux.nvim
-require("tmux").setup({
-	navigation = { enable_default_keybindings = false },
-	resize = { enable_default_keybindings = true },
-	copy_sync = { enable = true }
-})
+-- require('vague').setup({
+-- 	transparent = true
+-- })
+vim.cmd("colorscheme bark")
 
 require("typst-preview").setup({
 	debug = true,
@@ -111,34 +129,37 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Treesitter
-local treesitter_langs = {
-	"svelte", "markdown", "lua", "rust", "typst", "typescript", "javascript", "c", "cpp", "glsl", "zig", "python",
-	"typescriptreact"
-}
+do
+	local treesitter_langs = {
+		"svelte", "markdown", "lua", "rust", "typst", "typescript", "javascript", "c", "cpp", "glsl", "zig", "python",
+		"typescriptreact"
+	}
 
-local typesetting_langs = { "md", "typst", "org" }
+	local typesetting_langs = { "md", "typst", "org" }
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = treesitter_langs,
-	callback = function ()
-		vim.treesitter.start()
-	end
-})
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = treesitter_langs,
+		callback = function ()
+			vim.treesitter.start()
+		end
+	})
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = typesetting_langs,
-	callback = function ()
-		vim.o.wrap = true
-		vim.o.linebreak = true
-		vim.o.spell = true
-		vim.keymap.set('n', "j", "gj")
-		vim.keymap.set('n', "k", "gk")
-	end
-})
-
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = typesetting_langs,
+		callback = function ()
+			vim.o.wrap = true
+			vim.o.linebreak = true
+			vim.o.spell = true
+			vim.keymap.set('n', "j", "gj")
+			vim.keymap.set('n', "k", "gk")
+		end
+	})
+end
 -- LSP
+
 vim.lsp.enable({
 	"emmylua_ls",
+	"basedpyright",
 	"cssls",
 	"svelte",
 	"tinymist",
@@ -148,34 +169,14 @@ vim.lsp.enable({
 	"haskell-language-server",
 	"hlint",
 	"tailwindcss",
-	"ts_ls",
-	"basedpyright"
+	"ts_ls"
 })
-
--- below made obsolete by blink.cmp
---
--- vim.api.nvim_create_autocmd("LspAttach", {
---     group = vim.api.nvim_create_augroup("my.lsp", {}),
---     callback = function(args)
---         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
---         if client:supports_method("textDocument/completion") then
---             -- Trigger autocompletion on every printable character
---             local chars = {}
---             for i = 32, 126 do
---                 chars[i - 31] = string.char(i)
---             end
---             client.server_capabilities.completionProvider.triggerCharacters = chars
---             vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
---         end
---     end,
--- })
 
 -- blink.cmp
 -- required to call .build():pwait() because native vim.pack does not have a build function
 
 require('blink.cmp').build():pwait()
-require('blink.cmp').setup({
-})
+require('blink.cmp').setup({})
 
 -- Mason
 require("mason").setup()
@@ -232,20 +233,6 @@ require("gitsigns").setup()
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
 
--- DAP
-require("dap-lldb").setup()
-
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function ()
-	dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function ()
-	dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function ()
-	dapui.close()
-end
-
 -- ============================================================================
 -- Utility Functions
 -- ============================================================================
@@ -276,37 +263,34 @@ local map = vim.keymap.set
 local builtin = require("telescope.builtin")
 local ls = require("luasnip")
 
+-- movement
+map("i", "<C-a>", "<C-o>^")
+map("i", "<C-e>", "<C-o>$")
+map("c", "<C-a>", "<Home>")
+map("c", "<C-e>", "<End>")
+map("i", "<M-f>", "<C-o>w")
+map("i", "<M-b>", "<C-o>b")
+
 -- System clipboard
 map({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 map({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
-map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "Yank to system clipboard" })
 
 -- Snippets
-map(
-	{ "i", "s" }, "<C-e>",
-	function ()
-		ls.expand_or_jump(1)
-	end,
-	{ silent = true }
+-- map({ "i", "s" }, "<C-e>", function ()
+-- 	ls.expand_or_jump(1)
+-- end, { silent = true }
+-- )
+map({ "i", "s" }, "<C-J>", function ()
+	ls.jump(1)
+end, { silent = true }
 )
-map(
-	{ "i", "s" }, "<C-J>",
-	function ()
-		ls.jump(1)
-	end,
-	{ silent = true }
-)
-map(
-	{ "i", "s" }, "<C-K>",
-	function ()
-		ls.jump(-1)
-	end,
-	{ silent = true }
+map({ "i", "s" }, "<C-K>", function ()
+	ls.jump(-1)
+end, { silent = true }
 )
 
--- DAP
-map("n", "<leader>d", ":DapNew<CR>", { desc = "New DAP session" })
-map({ "n", "i" }, "<C-b>", ":DapToggleBreakpoint<CR>", { desc = "Toggle breakpoint" })
+-- obvious enough
+map({ "n", "v", "x" }, "<CR>", ":")
 
 -- Terminal & Tabs
 map({ "n", "t" }, "<Leader>t", "<Cmd>split<CR><Cmd>term<CR>i", { desc = "Open terminal" })
@@ -319,10 +303,14 @@ end
 
 -- Plugin management
 map("n", "<leader>pc", pack_clean, { desc = "Clean unused plugins" })
+map("n", "<leader>pu", function ()
+	vim.pack.update()
+end, { desc = "Upgrade plugins" }
+)
 
 -- Vimrc editing
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit init.lua" })
-map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.config/zsh/.zshrc<CR>", { desc = "Edit .zshrc" })
+map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 map({ "n", "v", "x" }, "<leader>o", "<Cmd>source %<CR>", { desc = "Source current file" })
 map({ "n", "v", "x" }, "<leader>O", "<Cmd>restart<CR>", { desc = "Restart Neovim" })
 
@@ -333,11 +321,12 @@ map({ "n", "v", "x" }, "<leader>i", "<Cmd>tabedit .gitignore<CR>", { desc = "Edi
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format buffer" })
 map("n", "<C-f>", "<Cmd>Open .<CR>", { desc = "Open directory in file manager" })
 map("n", "<leader>w", "<Cmd>update<CR>", { desc = "Save buffer" })
-map("n", "<leader>q", "<Cmd>quit<CR>", { desc = "Quit buffer" })
+map("n", "<leader>q", "<Cmd>bdel<CR>", { desc = "Delete buffer" })
 map("n", "<leader>Q", "<Cmd>wqa<CR>", { desc = "Save all and quit" })
 
 -- Navigation
 map("n", "gl", "$", { desc = "End of line" })
+map("n", "gh", "^", { desc = "First non-whitespace character of line" })
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 map("n", "<C-d>", "<C-d>zz")
@@ -346,11 +335,10 @@ map("n", "<C-u>", "<C-u>zz")
 -- Visual mode
 map("v", "<", "<gv", { noremap = true, silent = true })
 map("v", ">", ">gv", { noremap = true, silent = true })
-map({ "n", "v", "x" }, "<CR>", ":", { desc = "Enter command mode" })
 
 -- Search
 map("n", "<ESC>", ":nohlsearch<CR>", { noremap = true, silent = true })
-map("n", "yag", ":%y<CR>", { noremap = true, silent = true, desc = "Yank all lines" })
+map("n", "yag", ":%y+<CR>", { noremap = true, silent = true, desc = "Yank all lines" })
 map("n", "vag", "ggVG", { noremap = true, silent = true, desc = "Select all lines" })
 map({ "n", "v", "x" }, "<C-s>", [[:s/\V]], { desc = "Substitute (very nomagic)" })
 
@@ -363,12 +351,9 @@ map("n", "<M-m>", "<cmd>vertical resize -5<CR>", { desc = "Decrease width" })
 -- Telescope
 map("n", "<leader>f", builtin.find_files, { desc = "Find files" })
 map("n", "<leader>g", builtin.live_grep, { desc = "Live grep" })
-map(
-	"n", "<leader>sg",
-	function ()
-		builtin.find_files({ no_ignore = true })
-	end,
-	{ desc = "Find all files" }
+map("n", "<leader>sg", function ()
+	builtin.find_files({ no_ignore = true })
+end, { desc = "Find all files" }
 )
 map("n", "<leader>sb", builtin.buffers, { desc = "Buffers" })
 map("n", "<leader>si", builtin.grep_string, { desc = "Grep string under cursor" })
@@ -389,19 +374,20 @@ map("n", "<leader>sa", require("actions-preview").code_actions, { desc = "Code a
 map("n", "<C-q>", ":copen<CR>", { silent = true, desc = "Open quickfix" })
 
 -- Oil & Compile
+vim.g.compile_mode = {}
 map("n", "<leader>e", "<cmd>Oil<CR>", { desc = "Open Oil file browser" })
 map("n", "<leader>c", "<cmd>Compile<CR>", { desc = "Compile" })
 
 -- Custom ex-mode mappings
 vim.cmd(
 	[[
-    nnoremap g= g+
-    nnoremap gK @='ddkPJ'<cr>
-    xnoremap gK <esc><cmd>keeppatterns '<,'>-global/$/normal! ddpkJ<cr>
-    noremap! <c-r><c-d> <c-r>=strftime('%F')<cr>
-    noremap! <c-r><c-t> <c-r>=strftime('%T')<cr>
-    noremap! <c-r><c-f> <c-r>=expand('%:t')<cr>
-    noremap! <c-r><c-p> <c-r>=expand('%:p')<cr>
-    xnoremap <expr> . "<esc><cmd>'<,'>normal! ".v:count1.'.<cr>'
+		nnoremap g= g+
+		nnoremap gK @='ddkPJ'<cr>
+		xnoremap gK <esc><cmd>keeppatterns '<,'>-global/$/normal! ddpkJ<cr>
+		noremap! <c-r><c-d> <c-r>=strftime('%F')<cr>
+		noremap! <c-r><c-t> <c-r>=strftime('%T')<cr>
+		noremap! <c-r><c-f> <c-r>=expand('%:t')<cr>
+		noremap! <c-r><c-p> <c-r>=expand('%:p')<cr>
+		xnoremap <expr> . "<esc><cmd>'<,'>normal! ".v:count1.'.<cr>'
 ]]
 )
